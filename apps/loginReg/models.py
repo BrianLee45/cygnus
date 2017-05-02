@@ -5,7 +5,7 @@ from django.db import models
 from datetime import datetime, date
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-A0-9._-]+\.[a-zA-Z]*$')
-BDAY_REGEX = re.compile(r'^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$')
+# BDAY_REGEX = re.compile(r'^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$')
 
 # Create your models here.
 class UserManager(models.Manager):
@@ -67,8 +67,8 @@ class UserManager(models.Manager):
         if request['password'] != request['confirmPass']:
             errors.append("Passwords must match")
 
-        if not BDAY_REGEX.match(request['birthday']):
-            errors.append("Please enter a valid date for your birthday")
+        # if not BDAY_REGEX.match(request['birthday']):
+        #     errors.append("Please enter a valid date for your birthday")
 
         #Check if entered login exists in DB
         try:
@@ -90,7 +90,7 @@ class UserManager(models.Manager):
                     last_name = request['lastname'],
                     email = request['email'],
                     password = hashedPW,
-                    birthday = datetime.strptime(request['birthday'], "%m/%d/%Y").date()
+                    # birthday = datetime.strptime(request['birthday'], "%m/%d/%Y").date()
                 )
                 #datetime.strptime(s, "%Y-%m-%d").date()
                 context = {
@@ -118,7 +118,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.CharField(max_length=120)
     password = models.CharField(max_length=255)
-    birthday = models.DateField(default=date.today)
+    # birthday = models.DateField(default=date.today)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     objects = UserManager()

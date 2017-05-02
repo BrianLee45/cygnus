@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Trip Tracker</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'thor/css/master.css' %}">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#datePicker").datepicker({
+        dateFormat: "yy-mm-dd"
+      });
+    });
+
+  </script>
+  <!-- <link rel="stylesheet" href="../static/css/master.css"> -->
+</head>
+<body>
+  <main>
+    <header>
+      {% if users %}
+      {% for user in users %}
+      <h1>Welcome {{ user.first_name }}</h1> <!-- Need Username -->
+      {% endfor %}
+      {% endif %}
+      <a href="{% url 'loginReg:logout' %}">Log Out</a>
+    </header>
+    {% if messages %}
+      {% for message in messages %}
+        <p class="flash">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+    <section id="myTravel">
+      <h2>Your Trip Schedules</h2>
+          <table>
+            <thead>
+              <td>Destination</td>
+              <td>Travel Start Date</td>
+              <td>Travel End Date</td>
+              <td>Plan</td>
+            </thead>
+            <tbody>
+              {% if trips %}
+              {% for trip in trips %}
+              <tr>
+                <td><a href="{% url 'thor:destination' trip.id %}">{{trip.destination}}</a></td>
+                <td>{{trip.start_date}}</td>
+                <td>{{trip.end_date}}</td>
+                <td>{{trip.description}}</td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+    </section>
+
+    <section id="otherTravel">
+      <h2>Other Users Travel Plans</h2>
+      <table>
+        <thead>
+          <td>Name</td>
+          <td>Destination</td>
+          <td>Travel Start Date</td>
+          <td>Travel End Date</td>
+          <td>Do You Want to Join?</td>
+        </thead>
+        <tbody>
+          {% if otherTrips %}
+          {% for trip in otherTrips %}
+          <tr>
+            <td>{{trip.planner.first_name}} {{trip.planner.last_name}}</td>
+            <td><a href="{% url 'thor:destination' trip.id %}">{{trip.destination}}</a></td>
+            <td>{{trip.start_date}}</td>
+            <td>{{trip.end_date}}</td>
+            <td><a href="{% url 'thor:join' trip.id %}">Join</a></td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    <h3><a href="{% url 'thor:showAdd' %}">Add Travel Plan</a></h3>
+  </main>
+</body>
+</html>

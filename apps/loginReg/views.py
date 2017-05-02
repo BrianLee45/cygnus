@@ -31,7 +31,7 @@ def doLogin(request):
         # request.session[''] = context['user']
         # return render(request, 'loginReg/welcome.html', context)
         # return redirect('loginReg:welcome')
-        return redirect('odin:home')
+        return redirect('thor:home')
 
     else:
         for error in context:
@@ -64,7 +64,7 @@ def doRegister(request):
         request.session['id'] = context['user'].id
         messages.info(request, "Thank you for registering!")
         # return render(request, 'loginReg/welcome.html', context)
-        return redirect('odin:home')
+        return redirect('thor:home')
     else:
         for error in context:
             messages.error(request, error)

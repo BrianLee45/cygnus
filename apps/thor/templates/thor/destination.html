@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Edit My Appointments</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href=" {% static 'thor/css/master.css' %} ">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#datePicker").datepicker({
+        dateFormat: "yy-mm-dd"
+      });
+
+      $("#startDatePicker").datepicker({
+        dateFormat: "yy-mm-dd"
+      });
+
+    });
+
+  </script>
+
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Trip Information</h1> <!-- Need Username -->
+      <h4><a href="{% url 'thor:home' %}">Home</a></h4>
+      <h4><a href="{% url 'loginReg:logout' %}">Log Out</a></h4>
+    </header>
+    {% if messages %}
+      {% for message in messages %}
+        <p class="flash">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+    <section id="currentAppts">
+
+      {% if trip %}
+        <h1>{{trip.destination}}</h1>
+        <h3>Planned by: {{trip.planner.first_name}} {{trip.planner.last_name}}</h3>
+        <h3>Description: {{trip.description}}</h3>
+        <h3>Travel Date From: {{trip.start_date}}</h3>
+        <h3>Travel Date To: {{trip.end_date}}</h3>
+      {% endif %}
+      <!-- <h2>Create an Event</h2> -->
+      <h1>Other People Going on the Trip:</h1>
+      {% if travelers %}
+      {% for traveler in travelers %}
+        <h4>{{traveler.first_name}} {{traveler.last_name}}</h4>
+      {% endfor %}
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
